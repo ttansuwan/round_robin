@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+  instance-demo:
+    env_file:
+      - ./instance-demo/.env
+      - ./.env # Global env
+    command: uvicorn app.main:app --host 0.0.0.0 --reload --log-level debug
+    build:
+      context: ./instance-demo
+      dockerfile: Dockerfile
+      args:
+        INSTALL_ENV: production
+    deploy:
+      replicas: ${NO_INSTANCES}
+    ports:
+      - '8001-8005:8000'
+    volumes:
+      - ./instance-demo:/app/
+  round-robin:
+    env_file:
+      - ./round-robin/.env
+      - ./.env # Global env
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --log-level debug
+    build:
+      context: ./round-robin
+      dockerfile: Dockerfile
+      args:
+        INSTALL_ENV: production
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./round-robin:/app/
+volumes:
+  cache:
+    driver: local

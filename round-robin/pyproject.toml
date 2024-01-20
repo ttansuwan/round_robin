@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "round-robin"
+version = "0.1.0"
+description = ""
+authors = ["Tadsawan Tansuwan <tadsawan.t@manatal.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.109.0"
+uvicorn = "^0.26.0"
+requests = "^2.31.0"
+pydantic-settings = "^2.1.0"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.12.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+include = '\.pyi?$'
