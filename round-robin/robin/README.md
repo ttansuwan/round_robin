@@ -2,6 +2,7 @@
 ## Details
 - Framework: FastAPI
 - Test framework: Pytest
+
 ## Test coverage
 | Name                                                        | Stmts | Miss | Cover | Missing    |
 |-------------------------------------------------------------|-------|------|-------|------------|
@@ -12,3 +13,14 @@
 | app/queue/instance_queue.py                                 | 16    | 0    | 100%  |            |
 | app/settings.py                                             | 6     | 0    | 100%  |            |    |      |       |            |
 | TOTAL                                                       | 63    | 6    | 90%   |            |
+
+## How to run test
+Running test:
+```bash
+pytest -c test.ini . 
+```
+For test coverage report:
+```bash
+pytest --cov-report term-missing --cov=app -c test.ini
+```
+

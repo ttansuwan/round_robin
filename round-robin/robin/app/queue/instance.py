@@ -7,7 +7,7 @@ class Instance:
         self.is_alive = True
 
     def forward(self, payload: dict, retry_no: int = 0):
-        if retry_no > 2:
+        if retry_no > 1:
             return None
         try:
             response = requests.post(self.url, json=payload, timeout=10)
