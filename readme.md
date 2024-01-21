@@ -7,7 +7,7 @@ Implementing round robin that interact with N amount of instance
 Run poetry to set up the round robin and instances
 
 ```bash
-cd instance-demo #or round-robin
+cd round-robin
 poetry init
 ```
 

@@ -19,10 +19,15 @@ class InstanceQueue:
         """Remove an instance out of queue and
         put it back in the queue
         """
-        latest_instance = self.instance_list.pop(0)
-        response = latest_instance.forward(payload)
+        response = None
+        while len(self.instance_list) != 0:
+            latest_instance = self.instance_list.pop(0)
+            response = latest_instance.forward(payload)
 
-        # Put it back to the queue
-        self.instance_list.append(latest_instance)
+            if response != None:
+                # Put it back to the queue
+                self.instance_list.append(latest_instance)
+                return response
 
-        return response
+        # Exhausted all the instances in the queue list
+        raise Exception("No instances left to pass request to")

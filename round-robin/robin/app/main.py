@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 
 from .queue import InstanceQueue, Instance
 from .settings import Settings
@@ -30,5 +30,10 @@ app = FastAPI(lifespan=lifespan)
 @app.post("/")
 async def root(request: Request):
     payload = await request.json()
-    response = queue.pop(payload=payload)
+    try:
+        response = queue.pop(payload=payload)
+    except Exception as e:
+        raise HTTPException(
+            status_code=503, detail="Unable to process any request"
+        )
     return response
