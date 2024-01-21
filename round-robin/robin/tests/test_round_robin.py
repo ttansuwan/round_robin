@@ -3,6 +3,8 @@ import pytest
 import requests
 from unittest.mock import patch, Mock
 
+from app.queue import Instance
+
 from .conftest import mock_forward_succeed, mock_foward_fail, instance_queue
 
 
@@ -73,3 +75,17 @@ class TestQueue:
                 response = await async_client.post("/", json={"game": "name"})
                 assert response.status_code == 503
         assert len(self.queue.instance_list) == 0
+
+
+class TestInstance:
+    @pytest.fixture(autouse=True)
+    def init(self):
+        self.instance = Instance(url="http://whatever.com")
+
+    @patch.object(requests, "post", side_effect=ConnectionError)
+    def test_forward_retry(self, mock_post):
+        assert self.instance.forward(payload={"whatever": "test"}) == None
+
+    @patch.object(requests, "post", side_effect=Exception)
+    def test_forward_unknown_exception(self, mock_post):
+        assert self.instance.forward(payload={"whatever": "test"}) == None
