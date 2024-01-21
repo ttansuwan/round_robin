@@ -1,5 +1,4 @@
 import requests
-from urllib3.exceptions import NameResolutionError
 
 
 class Instance:
