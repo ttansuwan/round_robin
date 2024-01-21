@@ -27,7 +27,7 @@ To add more instances, change `NO_INSTANCES` in root `.env`
 2. How would my round robin API handle it if one of the application APIs start to go slowly? 
 * Timeout and retry mechanic are placed for each request to the API instances. This prevents:
     * Request to be hanging 
-    * Even after retries, instance should no longer be in the queue
+    * Slow endpoint to be return to the queue
 * Retries should give enough chances to the API instances but if exceed the retries (3 times), the instance should be deem as inactive and removed from the queue. 
 3. How would I test this application?
 * Pytest (see [Round Robin Instance](./round-robin/robin/README.md))
