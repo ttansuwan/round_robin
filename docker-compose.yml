@@ -4,7 +4,7 @@ services:
     env_file:
       - ./round-robin/instance/.env
       - ./.env # Global env
-    command: uvicorn app.main:app --host 0.0.0.0 --reload --log-level debug
+    command: uvicorn app.main:app --host 0.0.0.0
     build:
       context: ./round-robin
       dockerfile: ./instance/Dockerfile
@@ -20,10 +20,10 @@ services:
     env_file:
       - ./round-robin/robin/.env
       - ./.env # Global env
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --log-level debug
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     build:
-      context: ./round-robin/robin
-      dockerfile: Dockerfile
+      context: ./round-robin
+      dockerfile: ./robin/Dockerfile
       args:
         INSTALL_ENV: production
     ports:
