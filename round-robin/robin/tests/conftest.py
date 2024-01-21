@@ -2,11 +2,14 @@ import pytest
 import pytest_asyncio
 from unittest.mock import patch
 from httpx import AsyncClient
+from faker import Faker
 
 from app.main import app
 from app.queue import Instance, InstanceQueue
 
-# Globalize queue
+# Global faker
+Faker.seed(0)
+fake = Faker()
 
 
 def mock_forward_succeed(payload: dict):
@@ -21,14 +24,9 @@ def mock_foward_fail(payload: dict):
 def instance_queue():
     # Generate multiple instances
     queue = InstanceQueue()
-    instance1 = Instance(url="whatever.com")
-    instance2 = Instance(url="next.com")
-    instance3 = Instance(url="test.com")
 
-    queue.add(instance1)
-    queue.add(instance2)
-    queue.add(instance3)
-
+    for i in range(3):
+        queue.add(Instance(url=fake.url()))
     return queue
 
 

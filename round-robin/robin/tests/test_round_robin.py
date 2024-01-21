@@ -5,7 +5,7 @@ from unittest.mock import patch, Mock
 
 from app.queue import Instance
 
-from .conftest import mock_forward_succeed, mock_foward_fail, instance_queue
+from .conftest import mock_forward_succeed, mock_foward_fail, fake
 
 
 class MockResponse:
@@ -80,7 +80,7 @@ class TestQueue:
 class TestInstance:
     @pytest.fixture(autouse=True)
     def init(self):
-        self.instance = Instance(url="http://whatever.com")
+        self.instance = Instance(url=fake.url())
 
     @patch.object(requests, "post", side_effect=ConnectionError)
     def test_forward_retry(self, mock_post):
