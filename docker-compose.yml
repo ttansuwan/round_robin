@@ -2,12 +2,12 @@ version: '3.3'
 services:
   instance-demo:
     env_file:
-      - ./instance-demo/.env
+      - ./round-robin/instance/.env
       - ./.env # Global env
     command: uvicorn app.main:app --host 0.0.0.0 --reload --log-level debug
     build:
-      context: ./instance-demo
-      dockerfile: Dockerfile
+      context: ./round-robin
+      dockerfile: ./instance/Dockerfile
       args:
         INSTALL_ENV: production
     deploy:
@@ -15,21 +15,21 @@ services:
     ports:
       - '8001-8005:8000'
     volumes:
-      - ./instance-demo:/app/
+      - ./round-robin/instance:/app/
   round-robin:
     env_file:
-      - ./round-robin/.env
+      - ./round-robin/robin/.env
       - ./.env # Global env
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --log-level debug
     build:
-      context: ./round-robin
+      context: ./round-robin/robin
       dockerfile: Dockerfile
       args:
         INSTALL_ENV: production
     ports:
       - '8000:8000'
     volumes:
-      - ./round-robin:/app/
+      - ./round-robin/robin:/app/
 volumes:
   cache:
     driver: local

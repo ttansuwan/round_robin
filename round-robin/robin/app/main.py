@@ -12,12 +12,14 @@ queue = InstanceQueue()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Initialise instance queue alongside with the app
-        using FastAPI lifespan
+    using FastAPI lifespan
     """
 
     # Add instances based on the environment setting
     for i in range(settings.NO_INSTANCES):
-        queue.add(Instance(url=f"http://coda-instance-demo-{i+1}:8000"))
+        queue.add(
+            Instance(url=f"http://{settings.INSTANCE_PREFIX}-{i+1}:8000")
+        )
 
     yield
 

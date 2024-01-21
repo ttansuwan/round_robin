@@ -15,11 +15,11 @@ ENV INSTALL_ENV=${INSTALL_ENV} \
 RUN pip install "poetry==$POETRY_VERSION"
 
 # Copy only requirements to cache them in docker layer
-COPY poetry.lock pyproject.toml /app/
+COPY ../poetry.lock ../pyproject.toml /app/
 
 RUN poetry config virtualenvs.create false
 RUN bash -c "if [ $INSTALL_ENV != 'production' ] ; then poetry install --no-root ; else poetry install --no-root --only main ; fi"
 
-COPY ./app /app
+COPY ./robin/app /app
 ENV PYTHONPATH=/app
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -7,6 +7,7 @@ class Instance:
 
     def forward(self, payload: dict):
         try:
+            print(self.url)
             response = requests.post(self.url, json=payload, timeout=10)
             return response.json()
         except Exception as e:
